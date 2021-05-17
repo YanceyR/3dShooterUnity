@@ -22,8 +22,8 @@ public class RayShooter : MonoBehaviour
 
     private void ShootRay()
     {
-        Vector3 point = new Vector3(this.camera.pixelWidth / 2, this.camera.pixelHeight / 2, 0);
-        Ray ray = this.camera.ScreenPointToRay(point);
+        Vector3 centerOfScreenPoint = new Vector3(this.camera.pixelWidth / 2, this.camera.pixelHeight / 2, 0);
+        Ray ray = this.camera.ScreenPointToRay(centerOfScreenPoint);
         RaycastHit raycastHit;
 
         if (Physics.Raycast(ray, out raycastHit))
@@ -40,22 +40,6 @@ public class RayShooter : MonoBehaviour
                 StartCoroutine(SpawnSphereIndicator(raycastHit.point));
             }
         }
-    }
-
-    private IEnumerator SpinTransform(Transform transform, float speed, float duration)
-    {
-        float counter = 0f;
-
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-
-            transform.Rotate(0, speed, 0);
-
-            yield return null;
-        }
-
-        yield break;
     }
 
     private IEnumerator SpawnSphereIndicator(Vector3 pos)
