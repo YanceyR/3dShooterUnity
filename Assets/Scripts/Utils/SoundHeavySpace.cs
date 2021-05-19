@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SoundHeavy
 {
@@ -8,5 +9,10 @@ namespace SoundHeavy
         public static readonly string MovementVertical = "Vertical";
         public static readonly string MouseHorizontal = "Mouse X";
         public static readonly string MouseVertical = "Mouse Y";
+    }
+
+    public class Utils
+    {
+
     }
 }
