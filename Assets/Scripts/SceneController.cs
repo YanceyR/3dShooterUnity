@@ -16,6 +16,11 @@ public class SceneController : MonoBehaviour
 
     private Vector3 playerStartingPosition = new Vector3(0, 2, 16);
 
+    // HACK: figure out a better way
+    private int spawnEnemyX = 30;
+    private int spawnEnemyY = 3;
+    private int spawnEnemyZ = 20;
+
     private GameObject CreatePlayer()
     {
         GameObject player = Instantiate(playerPrefab);
@@ -28,7 +33,11 @@ public class SceneController : MonoBehaviour
     private GameObject CreateEnemy()
     {
         GameObject enemy = Instantiate(enemyPrefab);
-        enemy.transform.position = new Vector3(0, 3, -16);
+
+        int posX = CoinToss() ? spawnEnemyX : spawnEnemyX * -1;
+        int posZ = CoinToss() ? spawnEnemyZ : spawnEnemyZ * -1;
+        enemy.transform.position = new Vector3(posX, spawnEnemyY, posZ);
+
         float randomAngle = Random.Range(0, 360);
         enemy.transform.Rotate(0, randomAngle, 0);
 
@@ -68,5 +77,12 @@ public class SceneController : MonoBehaviour
         }
     }
 
+// Utils
+
+    bool CoinToss()
+    {
+        float coinToss = (Random.Range(0.1f, 1.9f));
+        return coinToss >= 1;
+    }
 
 }

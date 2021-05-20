@@ -35,30 +35,25 @@ public class WanderingAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!movementEnabled) { return; }
 
         if (detectionSightEnabled) {
-            //avoidObstacles();
             lookForPlayer();
-            //avoidObstacles();
         }
 
-        if (!foundPlayer)
-        { 
-            if (detectionListeningEnabled) { listenForPlayer(); }
-
-            avoidObstacles();
+        if (detectionListeningEnabled) {
+            listenForPlayer();
         }
-    }
 
-    private void LateUpdate()
-    {
+        avoidObstacles();
+
         if (foundPlayer)
         {
             run();
-        } else
+        }
+        else
         {
             walk();
         }
@@ -66,12 +61,12 @@ public class WanderingAI : MonoBehaviour
 
     private void walk()
     {
-        transform.Translate(0, 0, speedWandering);
+        transform.Translate(0, 0, speedWandering * Time.deltaTime);
     }
 
     private void run()
     {
-        transform.Translate(0, 0, speedWandering * speedTowardPlayerMultiplier);
+        transform.Translate(0, 0, speedWandering * speedTowardPlayerMultiplier * Time.deltaTime);
     }
 
     private void lookForPlayer()
@@ -130,7 +125,7 @@ public class WanderingAI : MonoBehaviour
     {
         RaycastHit hit;
         Ray rayWallSearch = new Ray(transform.position, transform.forward);
-        bool castToSearchWall = Physics.SphereCast(rayWallSearch, transform.localScale.x/2, out hit, obstacleDetectionRange);
+        bool castToSearchWall = Physics.SphereCast(rayWallSearch, transform.localScale.x, out hit, obstacleDetectionRange);
 
         if (castToSearchWall)
         {
