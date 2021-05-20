@@ -122,10 +122,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d20950299e7f4084916e7f3ce4f6f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionSightEnabled: 1
+  detectionListeningEnabled: 1
   speedWandering: 0.1
   speedTowardPlayerMultiplier: 2
   obstacleDetectionRange: 5
-  playerDetectionRange: 2
+  playerDetectionSightRange: 3
+  playerDetectionListeningRange: 2
+  player: {fileID: 0}
 --- !u!143 &3504068080830442373
 CharacterController:
   m_ObjectHideFlags: 0
