@@ -22,10 +22,11 @@ public class ReactiveTarget : MonoBehaviour
 
     public void ReactToHit()
     {
-        StartCoroutine(Spin());
+        StopMovement();
+        StartCoroutine(Bleedout());
     }
 
-    private IEnumerator Spin()
+    private IEnumerator Bleedout()
     {
         float counter = 0f;
 
@@ -41,4 +42,13 @@ public class ReactiveTarget : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void StopMovement()
+    {
+        WanderingAI wanderingAI = GetComponent<WanderingAI>();
+
+        if (wanderingAI)
+        {
+            wanderingAI.setMovementEnabled(false);
+        }
+    }
 }
