@@ -500,6 +500,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 232257349}
+  - component: {fileID: 232257350}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -534,6 +535,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &232257350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232257348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf533ce73d103402aa8d268a0996e0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 232257349}
+  speed: 2
 --- !u!1 &334962456
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,9 +778,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ad225575e71e49f19e589749e28a456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPlayer: 1
+  spawnEnemy: 1
+  enableMinimap: 1
   playerPrefab: {fileID: 7031314408242132791, guid: dba72603cee3946b2b6a1916d2cdd57a, type: 3}
   enemyPrefab: {fileID: 3504068080830442490, guid: 27e4ecc1f59664f6ab944f814d0de073, type: 3}
   minimapPrefab: {fileID: 9048062693150080491, guid: b1b7bc9f86a68423db6625cba5f68581, type: 3}
+  enviroment: {fileID: 232257348}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
