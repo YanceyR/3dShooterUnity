@@ -782,7 +782,7 @@ MonoBehaviour:
   spawnEnemy: 1
   enableMinimap: 1
   playerPrefab: {fileID: 7031314408242132791, guid: dba72603cee3946b2b6a1916d2cdd57a, type: 3}
-  enemyPrefab: {fileID: 3504068080830442490, guid: 27e4ecc1f59664f6ab944f814d0de073, type: 3}
+  enemyPrefab: {fileID: 906618599480308923, guid: f12c677f225f24a6f8974539fc7827d5, type: 3}
   minimapPrefab: {fileID: 9048062693150080491, guid: b1b7bc9f86a68423db6625cba5f68581, type: 3}
   enviroment: {fileID: 232257348}
 --- !u!1 &705507993

@@ -17,12 +17,11 @@ public class SceneController : MonoBehaviour
     private GameObject enemy;
     private GameObject minimap;
 
-    private Vector3 playerStartingPosition = new Vector3(0, 2, 16);
-
     // HACK: figure out a better way
     private int spawnEnemyX = 30;
-    private int spawnEnemyY = 3;
     private int spawnEnemyZ = 20;
+    private int spawnPlayerX = 0;
+    private int spawnPlayerZ = 16;
     
     // Start is called before the first frame update
     void Start()
@@ -55,21 +54,28 @@ public class SceneController : MonoBehaviour
     private GameObject CreatePlayer()
     {
         GameObject player = Instantiate(playerPrefab, enviroment.transform);
-        player.transform.position = playerStartingPosition;
+        float height = player.transform.localScale.y;
+        float enviromentHeightFactor = enviroment.transform.localScale.y;
+        float posY = height / 2 * enviromentHeightFactor;
         float randomAngle = Random.Range(0, 360);
+
+        player.transform.position = new Vector3(spawnPlayerX, posY, spawnPlayerZ);
         player.transform.Rotate(0, randomAngle, 0);
+
         return player;
     }
 
     private GameObject CreateEnemy(GameObject player)
     {
         GameObject enemy = Instantiate(enemyPrefab, enviroment.transform);
-
-        int posX = CoinToss() ? spawnEnemyX : spawnEnemyX * -1;
-        int posZ = CoinToss() ? spawnEnemyZ : spawnEnemyZ * -1;
-        enemy.transform.position = new Vector3(posX, spawnEnemyY, posZ);
-
+        float height = enemy.transform.localScale.y;
+        float enviromentHeightFactor = enviroment.transform.localScale.y;
+        float posX = CoinToss() ? spawnEnemyX : spawnEnemyX * -1;
+        float posY = height / 2 * enviromentHeightFactor;
+        float posZ = CoinToss() ? spawnEnemyZ : spawnEnemyZ * -1;
         float randomAngle = Random.Range(0, 360);
+
+        enemy.transform.position = new Vector3(posX, posY, posZ);
         enemy.transform.Rotate(0, randomAngle, 0);
 
         WanderingAI searchingEnemy = enemy.GetComponent<WanderingAI>();
