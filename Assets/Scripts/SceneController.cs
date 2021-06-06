@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
-    [SerializeField] private bool spawnPlayer = true;
-    [SerializeField] private bool spawnEnemy = true;
+    [SerializeField] private bool spawnPlayerEnabled = true;
+    [SerializeField] private bool spawnEnemyEnabled = true;
     [SerializeField] private bool enableMinimap = true;
 
     [SerializeField] private GameObject playerPrefab;
@@ -14,8 +14,6 @@ public class SceneController : MonoBehaviour
     [SerializeField] private GameObject enviroment;
 
     private GameObject player;
-    private GameObject enemy;
-    private GameObject minimap;
 
     // HACK: figure out a better way
     private int spawnEnemyX = 30;
@@ -26,29 +24,31 @@ public class SceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (spawnPlayer)
+        if (spawnPlayerEnabled)
         {
             player = CreatePlayer();
         }
 
-        if (spawnEnemy)
+        if (spawnEnemyEnabled)
         {
-            enemy = CreateEnemy(player);
+            CreateEnemy(player);
         }
 
         if (enableMinimap)
         {
-            minimap = CreateMinimap(player);
+            CreateMinimap(player);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (spawnEnemy && enemy == null)
-        {
-            enemy = CreateEnemy(player);
-        }
+
+    }
+
+    public void spawnEnemy()
+    {
+        CreateEnemy(player);
     }
 
     private GameObject CreatePlayer()

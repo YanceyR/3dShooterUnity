@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 7031314408131566337}
   - component: {fileID: 7031314408131566336}
   - component: {fileID: 7031314408131566343}
-  - component: {fileID: 7031314408131566340}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -197,18 +196,6 @@ MonoBehaviour:
   invertedYAxis: 0
   rotationVerticalMinimum: -45
   rotationVerticalMaximum: 45
---- !u!114 &7031314408131566340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7031314408131566339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 544bc008a5daa4a2a9464197c7b154f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7031314408242132791
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +210,7 @@ GameObject:
   - component: {fileID: 7031314408242132792}
   - component: {fileID: 7031314408242132788}
   - component: {fileID: 7031314408242132793}
+  - component: {fileID: 6870619524194918593}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -347,3 +335,16 @@ MonoBehaviour:
   movementEnabled: 1
   movementSpeed: 10
   gravity: -9.8
+--- !u!114 &6870619524194918593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031314408242132791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b1a20f9582142dfa3fa1510aae98e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 4686354965983726734, guid: 0b0bd5cba8f0944c0bacf95b589f17de, type: 3}

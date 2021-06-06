@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 3504068080830442491}
   - component: {fileID: 3504068080830442372}
   - component: {fileID: 3504068080830442373}
+  - component: {fileID: 3054613137258367173}
+  - component: {fileID: -1434395411056184444}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Untagged
@@ -122,14 +124,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d20950299e7f4084916e7f3ce4f6f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  searchMethod: 0
   detectionSightEnabled: 1
   detectionListeningEnabled: 1
-  speedWandering: 5
-  speedTowardPlayerMultiplier: 1.4
-  obstacleDetectionRange: 5
-  playerDetectionSightRange: 3
-  playerDetectionListeningRange: 2
-  player: {fileID: 0}
+  speedSearching: 5
+  speedPursuing: 8
+  detectionObstacleRange: 5
+  detectionSightRange: 4
+  detectionListeningRange: 2
 --- !u!143 &3504068080830442373
 CharacterController:
   m_ObjectHideFlags: 0
@@ -148,3 +150,29 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3054613137258367173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504068080830442490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50eed3fdd4efa43acb46e278ad737347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthAmount: 2
+--- !u!114 &-1434395411056184444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504068080830442490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565d09bb9ebd84dabb90e277031adbaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnAmountOnDeath: 2
