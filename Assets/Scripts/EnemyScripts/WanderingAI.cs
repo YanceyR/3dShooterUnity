@@ -2,30 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Enemy/Wander")]
+
 public class WanderingAI : MonoBehaviour
 {
+    public enum SearchMethod
+    {
+        WalkToSearch = 0,
+        RotateToSearch = 1
+    }
+
+    public SearchMethod searchMethod = SearchMethod.WalkToSearch;
     public bool detectionSightEnabled = true;
     public bool detectionListeningEnabled = true;
 
-    // FIXME: any faster causes object to translate past wall
-    [SerializeField] private float speedWandering = .05f;
+    [SerializeField] private float speedSearching = 5f;
+    [SerializeField] private float speedPursuing = 8f;
+    [SerializeField] private float detectionObstacleRange = 5f;
+    [SerializeField] private float detectionSightRange = 4f;
+    [SerializeField] private float detectionListeningRange = 2f;
 
-    // Speed mulitplier when ai is locked on player.
-    [SerializeField] private float speedTowardPlayerMultiplier = 3f;
-    [SerializeField] private float obstacleDetectionRange = 5f;
-    [SerializeField] private float playerDetectionSightRange = 4f;
-    [SerializeField] private float playerDetectionListeningRange = 2f;
-
-    public GameObject player;
+    private GameObject player;
 
     // state management
     private bool movementEnabled;
     private bool foundPlayer;
-
-    public void setMovementEnabled(bool enabled)
-    {
-        movementEnabled = enabled;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -35,50 +36,64 @@ public class WanderingAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!movementEnabled) { return; }
 
         if (detectionSightEnabled) {
-            //avoidObstacles();
             lookForPlayer();
-            //avoidObstacles();
         }
 
-        if (!foundPlayer)
-        { 
-            if (detectionListeningEnabled) { listenForPlayer(); }
-
-            avoidObstacles();
+        if (detectionListeningEnabled) {
+            listenForPlayer();
         }
-    }
 
-    private void LateUpdate()
-    {
+        avoidObstacles();
+
         if (foundPlayer)
         {
-            run();
-        } else
+            charge();
+        }
+        else
         {
-            walk();
+            search();
         }
     }
 
-    private void walk()
+    public void setMovementEnabled(bool enabled)
     {
-        transform.Translate(0, 0, speedWandering);
+        movementEnabled = enabled;
     }
 
-    private void run()
+    public void setPlayer(GameObject player)
     {
-        transform.Translate(0, 0, speedWandering * speedTowardPlayerMultiplier);
+        this.player = player;
+    }
+
+    private void search()
+    {
+        switch (searchMethod)
+        {
+            case SearchMethod.WalkToSearch:
+                transform.Translate(0, 0, speedSearching * Time.deltaTime);
+                break;
+
+            case SearchMethod.RotateToSearch:
+                transform.Rotate(0, speedSearching * Time.deltaTime, 0);
+                break;
+        }
+    }
+
+    private void charge()
+    {
+        transform.Translate(0, 0, speedPursuing * Time.deltaTime);
     }
 
     private void lookForPlayer()
     {
         RaycastHit hitPlayer;
         Vector3 boxRaySize = new Vector3(transform.localScale.y, transform.localScale.y, 1);
-        bool castToSearchPlayer = Physics.BoxCast(transform.position, boxRaySize, transform.forward, out hitPlayer, Quaternion.LookRotation(transform.forward), playerDetectionSightRange);
+        bool castToSearchPlayer = Physics.BoxCast(transform.position, boxRaySize, transform.forward, out hitPlayer, Quaternion.LookRotation(transform.forward), detectionSightRange);
 
        if (castToSearchPlayer)
         {
@@ -110,7 +125,7 @@ public class WanderingAI : MonoBehaviour
             //find the vector pointing from our position to the target
             Vector3 direction = (player.gameObject.transform.position - transform.position);
 
-            if (direction.z < playerDetectionListeningRange)
+            if (direction.z < detectionListeningRange)
             {
                 foundPlayer = true;
 
@@ -130,7 +145,7 @@ public class WanderingAI : MonoBehaviour
     {
         RaycastHit hit;
         Ray rayWallSearch = new Ray(transform.position, transform.forward);
-        bool castToSearchWall = Physics.SphereCast(rayWallSearch, transform.localScale.x/2, out hit, obstacleDetectionRange);
+        bool castToSearchWall = Physics.SphereCast(rayWallSearch, transform.localScale.x, out hit, detectionObstacleRange);
 
         if (castToSearchWall)
         {

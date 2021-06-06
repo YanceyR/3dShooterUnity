@@ -4,36 +4,86 @@ using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
+    [SerializeField] private bool spawnPlayerEnabled = true;
+    [SerializeField] private bool spawnEnemyEnabled = true;
+    [SerializeField] private bool enableMinimap = true;
+
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject minimapPrefab;
-
+    [SerializeField] private GameObject enviroment;
 
     private GameObject player;
-    private GameObject enemy;
-    private GameObject minimap;
 
+    // HACK: figure out a better way
+    private int spawnEnemyX = 30;
+    private int spawnEnemyZ = 20;
+    private int spawnPlayerX = 0;
+    private int spawnPlayerZ = 16;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (spawnPlayerEnabled)
+        {
+            player = CreatePlayer();
+        }
 
-    private Vector3 playerStartingPosition = new Vector3(0, 2, 16);
+        if (spawnEnemyEnabled)
+        {
+            CreateEnemy(player);
+        }
+
+        if (enableMinimap)
+        {
+            CreateMinimap(player);
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void spawnEnemy()
+    {
+        CreateEnemy(player);
+    }
 
     private GameObject CreatePlayer()
     {
-        GameObject player = Instantiate(playerPrefab);
-        player.transform.position = playerStartingPosition;
+        GameObject player = Instantiate(playerPrefab, enviroment.transform);
+        float height = player.transform.localScale.y;
+        float enviromentHeightFactor = enviroment.transform.localScale.y;
+        float posY = height / 2 * enviromentHeightFactor;
         float randomAngle = Random.Range(0, 360);
+
+        player.transform.position = new Vector3(spawnPlayerX, posY, spawnPlayerZ);
         player.transform.Rotate(0, randomAngle, 0);
+
         return player;
     }
 
-    private GameObject CreateEnemy()
+    private GameObject CreateEnemy(GameObject player)
     {
-        GameObject enemy = Instantiate(enemyPrefab);
-        enemy.transform.position = new Vector3(0, 3, -16);
+        GameObject enemy = Instantiate(enemyPrefab, enviroment.transform);
+        float height = enemy.transform.localScale.y;
+        float enviromentHeightFactor = enviroment.transform.localScale.y;
+        float posX = CoinToss() ? spawnEnemyX : spawnEnemyX * -1;
+        float posY = height / 2 * enviromentHeightFactor;
+        float posZ = CoinToss() ? spawnEnemyZ : spawnEnemyZ * -1;
         float randomAngle = Random.Range(0, 360);
+
+        enemy.transform.position = new Vector3(posX, posY, posZ);
         enemy.transform.Rotate(0, randomAngle, 0);
 
-        WanderingAI wanderingEnemy = enemy.GetComponent<WanderingAI>();
-        wanderingEnemy.player = player;
+        WanderingAI searchingEnemy = enemy.GetComponent<WanderingAI>();
+
+        if (searchingEnemy)
+        {
+            searchingEnemy.setPlayer(player);
+        }
 
         return enemy;
     }
@@ -51,22 +101,11 @@ public class SceneController : MonoBehaviour
         return minimap;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // Utils
+    bool CoinToss()
     {
-        player = CreatePlayer();
-        enemy = CreateEnemy();
-        minimap = CreateMinimap(player);
+        float coinToss = (Random.Range(0.1f, 1.9f));
+        return coinToss >= 1;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (enemy == null)
-        {
-            enemy = CreateEnemy();
-        }
-    }
-
 
 }
